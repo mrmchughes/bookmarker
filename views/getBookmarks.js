@@ -17,28 +17,58 @@ module.exports = (bookmarks, categories) => {
 <div class="categoryBody">
  <section class="bookmarkForm">
     <h2>Add a Bookmark</h2>
+
     <form action="/bookmarks" method="POST">
      <input name="name" placeholder="Name" />
-              <select name="categoryId">
-                ${categories.map(
-                  (category) => `
-                <option value=${category.id}>${category.name}</option>
-              `
-                )}
-              </select>
-              <button>add</button>
+     <input name="url" placeholder="URL" />
+        <select name="categoryId">
+          ${categories.map(
+            (category) => `
+              <option value=${category.id}>${category.name}</option>
+            `
+              )}
+            </select>
+      <button>add</button>
     </form>
-    </section>
-<section class="bookmarksList">
-${bookmarks
-  .map((bookmark) => {
-    `<section class="bookmarkCard">
-        <h2>${bookmark.name}</h2>
-        <a href="/categories/${bookmark.category.id}"><h3>${bookmark.category.name}</h3></a>
+  </section>
+
+  <section class="bookmarksList">
+  ${bookmarks
+    .map((bookmark) => {
+      return `
+      <section class="categoryBookmarkCard">
+          <h2>${bookmark.name}</h2>
+          <h3>${bookmark.url}</h3>
+          <a href="/categories/${bookmark.category.id}"><h3>${bookmark.category.name}</h3></a>
+      </section>`;
+    })
+    .join("")}
+</section>
+
+<section>
+${categories
+    .map((category) => {
+      `<section class="categoryCard">
+        <h2>${category.name}</h2>
+        <a href="/categories/${category.id}"><h3>${category.name}</h3></a>
+    </section>`;
+    })
+    .join("")
+} 
+</section>
+
+<section class="categoriesList">
+<h2>Category Links</h2>
+${categories
+  .map((category) => {
+    return `
+    <section class="categoryBookmarkCard">
+        <a href="/categories/${category.id}"><h3>${category.name}</h3></a>
     </section>`;
   })
   .join("")}
 </section>
+
 </div>
 </body>
 

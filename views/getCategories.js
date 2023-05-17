@@ -14,7 +14,7 @@ module.exports = (category, bookmarks) => {
 
 <body>
 <header>
-  <button ><a id="back" href="/animals">Back</a></button>
+  <button><a id="back" href="/">Back</a></button>
   <h1> Bookmarker </h1>
 </header>
 <h2>${category.name}</h2>
@@ -24,7 +24,8 @@ ${bookmarks
     return `
     <section class="categoryBookmarkCard">
         <h2>${bookmark.name}</h2>
-        <form class="deleteAnimal" action="/bookmarks/${bookmark.id}?_method=DELETE" method="POST"><button>X</button></form>
+        <h3>${bookmark.url}</h3>
+        <form class="deleteBookmark" action="/bookmarks/${bookmark.id}?_method=DELETE" method="POST"><button>X</button></form>
     </section>`;
   })
   .join("")}

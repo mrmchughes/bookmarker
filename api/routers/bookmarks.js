@@ -4,14 +4,14 @@ const bookmarkRouter = require("express").Router();
 
 const { Bookmark, Category } = require("../db/index");
 
-const { checkPostBody, checkSpecies } = require("../middlewares/bookmarkHandler");
+const { checkPostBody, checkCategory } = require("../middlewares/bookmarkHandler");
 
 const getBookmarkHTML = require("../../views/getBookmarks");
 
 bookmarkRouter.get("/", async (req, res, next) => {
     try {
         const bookmarks = await Bookmark.findAll({
-            attributes: ["id, name", "url"],
+            attributes: ["id","name", "url"],
             
             include: [
                 {
@@ -28,6 +28,29 @@ bookmarkRouter.get("/", async (req, res, next) => {
     }
 })
 
+bookmarkRouter.post("/", async (req, res, next) => {
+    try {
+        const { name, url, categoryId } = req.body;
+        await Bookmark.create({ name, url, categoryId });
+        res.redirect("/categories/" + categoryId);
+    } catch (error) {
+        console.log("Error in POST /bookmarks");
+        next(error);
+    }
+})
+
+bookmarkRouter.delete("/:id", async (req, res, next) => {
+    try {
+        const bookmark = await Bookmark.findByPk(req.params.id);
+        await bookmark.destroy();
+        
+        res.redirect("/");
+    } catch (error) {
+        console.log("Error in DEL /bookmarks");
+        next(error);
+    }
+});
+
 module.exports = bookmarkRouter;
 
-//async does not work?
+//get middleware fixed

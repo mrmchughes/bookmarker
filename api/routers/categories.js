@@ -7,7 +7,7 @@ const categoryDetailHTML = require("../../views/getCategories");
 
 categoryRouter.get("/:id", async (req, res, next) => {
     try {
-        const category = await Category.findByPK(req.params.id);
+        const category = await Category.findByPk(req.params.id);
         const bookmarks = await Bookmark.findAll({
             where: {
                 categoryId: req.params.id,
